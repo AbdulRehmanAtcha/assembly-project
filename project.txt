@@ -2,16 +2,20 @@ dosseg
 .model small
 .stack 100h
 .data
-msg0 db 'This Project Is Made By',0ah,0dh, 'Abdul Rehman',0ah,0dh, 'Abdul Wahab',0ah,0dh, 'Aarish Hussain',0ah,0dh,'Muhammad Sheheryaar',0ah,0dh, 'Syed Muhammad Faiq$'
+msg0 db 'This Project Is Made By',0ah,0dh, 'Abdul Rehman',0ah,0dh, 'Abdul Wahab',0ah,0dh, 'Aarish Hussain',0ah,0dh, 'Ashar Ali',0ah,0dh, 'Muhammad Sheheryaar',0ah,0dh, 'Syed Muhammad Faiq$'
 
-design db 10, 13, '=====================*====================$'
+breaker db 10, 13, '=====================*====================$'
 
 msg1 db 10, 13,'Enter 1 For Addition$'
 msg2 db 10, 13,'Enter 2 For Subtraction$'
+msg3 db 10, 13,'Enter 3 For Multiplication$'
 msg5 db 10, 13,'Enter Your Choice: $'
 fn db 10, 13, 'Enter FIrst Number: $'
 sn db 10, 13, 'Enter Second Number: $'
 result db 10, 13, 'The result Is: $'
+opt1 db ?
+opt2 db ?
+ans db ?
 
 .code
 Main proc
@@ -22,7 +26,7 @@ Mov dx, offset msg0
 Mov ah, 9
 INT 21h
 
-Mov dx, offset design
+Mov dx, offset breaker
 Mov ah, 9
 INT 21h
 
@@ -34,6 +38,9 @@ Mov dx, offset msg2
 Mov ah, 9
 INT 21h
 
+Mov dx, offset msg3
+Mov ah, 9
+INT 21h
 
 
 Mov dx, 13
@@ -59,6 +66,9 @@ JE COND1
 CMP bh, 2
 JE COND2
 
+
+CMP bh, 3
+JE COND3
 
 
 COND1:
@@ -107,8 +117,6 @@ INT 21h
 SUB bl, al
 Add bl, 48
 
-
-
 Mov dx, offset result
 Mov ah, 9
 INT 21h
@@ -118,6 +126,54 @@ INT 21h
 
 Mov ah, 4ch
 INT 21h
+
+
+
+COND3:
+Mov dx, offset fn
+Mov ah, 9
+INT 21h
+
+Mov ah, 1
+INT 21h
+SUB al, 30h
+Mov opt1, al
+
+Mov dx, offset sn
+Mov ah, 9
+INT 21h
+
+Mov ah, 1
+INT 21h
+Sub al, 30h
+Mov opt2, al
+
+
+MUl opt1
+
+Mov ans, al
+AAM
+
+ADD ah, 30h
+ADD al, 30h
+
+Mov bx, ax
+
+Mov dx, offset result
+Mov ah, 9
+INT 21h
+
+Mov ah, 2
+Mov dl, bh
+INT 21h
+
+Mov ah, 2
+Mov dl, bl
+INT 21h
+
+Mov ah, 4ch
+INT 21h
+
 
 
 
